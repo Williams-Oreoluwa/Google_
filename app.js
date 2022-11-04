@@ -1,315 +1,265 @@
+// Toggle menu
 
-<!DOCTYPE html>
-<html lang="en">
+let menu = document.querySelector(".options-container");
 
-<head>
+const menuIcon = document.querySelector("#icon")
 
-    <meta charset="UTF-8">
+menuIcon.addEventListener("click", function(){
 
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  menu.classList.toggle("active")
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+});
 
-    <!-- Title -->
+// Digital clock display
 
-    <title>GOOGLE CLONE</title>
+const timeValue = document.querySelector(".time")
 
-    <!-- Link to CSS-->
+function displayTime() {
 
-    <link rel="stylesheet" href="style.css">
+  let dateTime = new Date();
 
-    <!-- BOXICON NODE PACKAGE MANAGER -->
+  let hrs = dateTime.getHours();
 
-    <link rel="stylesheet"
-    href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
-    
-</head>
+  let min = dateTime.getMinutes();
 
-<body>
+  let sec = dateTime.getSeconds();
 
-    <!-- Menu Container -->
+  let session = document.getElementById("session");
 
-    <div class="container" id="container">
+  if (hrs >= 12) {
 
-        <!-- Menu List -->
+    session.innerHTML = "PM";
 
-        <div class="menu">
+  } else {
 
-            <li><a href="#" class="img">Gmail</a></li>
+    session.innerHTML = "AM";
 
-            <li><a href="#" class="img">Images</a></li>
+  }
 
-            <li><a href="#"><i class='bx bxs-grid' id="icon"></i></a></li>
+  // Grab elements HTML
 
-            <li><a href="#" class="name">W</a></li>
+  const hoursElement = document.getElementById("hours");
 
-        </div>
+  const minutesElement = document.getElementById("minutes");
 
-    </div>
+  const secondsElement = document.getElementById("seconds");
 
-    <!-- Items present in the menu icon container -->
+  // Display elements
 
-    <div class="options">
+  hoursElement.innerHTML = hrs;
 
-        <div class="options-container">
+  minutesElement.innerHTML = min;
 
-            <div class="data">
+  secondsElement.innerHTML = sec;
+}
+// Call displaytime function
 
-                <li><div class="google">
+setInterval(displayTime, 10);
 
-                    <a href="#"><i class='bx bxl-google'></i></a>
+// Weather App Display.
 
-                    <h6>Search</h6>
+// Select weather elements.
 
-                </div></li>
+const iconElement = document.querySelector(".weather-icon");
 
-                <li><div class="YouTube">
+const tempElement = document.querySelector(".temperature-value p");
 
-                    <a href="#"><i class='bx bxl-youtube'></i></a>
+const descElement = document.querySelector(".temperature-description p");
 
-                    <h6>YouTube</h6>
+const locationElement = document.querySelector(".location p");
 
-                </div></li>
+const notificationElement = document.querySelector(".notification");
 
-                <li><div class="mongo">
+const humidityElement = document.querySelector(".humidity");
 
-                    <a href="#"><i class='bx bxl-mongodb'></i></a>
+const pressureElement = document.querySelector(".pressure");
 
-                    <h6>Mongodb</h6>
+const weather = {};
 
-                </div></li>
-               
-            </div>
+weather.temperature = {
 
-            <div class="data">
+  unit: "celsius",
 
-                <li><div class="meta">
+};
 
-                    <a href="#"><i class='bx bxl-meta'></i></a>
 
-                    <h6>Meta</h6>
+KELVIN = 273;
 
-                </div></li>
+// API KEY
 
-                <li><div class="twitter">
+const key = "82005d27a116c2880c8f0fcb866998a0";
 
-                    <a href="#"><i class='bx bxl-twitter'></i></a>
+// Weather display if geolocation is accessed or browser does not support geolocation.
 
-                    <h6>twitter</h6>
+if ("geolocation" in navigator) {
 
-                </div></li>
+  navigator.geolocation.getCurrentPosition(setPosition, showError);
 
-                <li><div class="snapchat">
+} else {
 
-                    <a href="#"><i class='bx bxl-snapchat'></i></a>
+  notificationElement.style.display = "block";
 
-                    <h6>Snapchat</h6>
+  notificationElement.innerHTML = `<p> Browser does not support geolocation`;
+}
 
-                </div></li>
-          
-            </div> 
+// Function to set the current position.
 
-            <div class="data">
+function setPosition(position) {
 
-                <li><div class="tiktok">
+  let latitude = position.coords.latitude;
 
-                    <a href="#"><i class='bx bxl-tiktok'></i></a>
+  let longitude = position.coords.longitude;
 
-                    <h6>tiktok</h6>
+  getWeather(latitude, longitude);
 
-                </div></li>
+}
 
-                <li><div class="venmo">
+// Function to show error if browser does not support geolocation.
 
-                    <a href="#"><i class='bx bxl-venmo'></i></a>
+function showError(error) {
 
-                    <h6>Venmo</h6>
+  notificationElement.style.display = "block";
 
-                </div></li>
+  notificationElement.innerHTML = `<p> ${error.message} </p>`;
 
-                <li><div class="xing">
+}
 
-                    <a href="#"><i class='bx bxl-xing'></i><a>
+// Get actual weather function.
 
-                    <h6>Xing</h6>
+function getWeather(latitude, longitude) {
 
-                </div></li>
-               
-            </div>     
-            
-        </div>
+  const api = `http://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${key}`;
+
+  console.log(api)
+
+  console.log(api)
+
+  fetch(api)
+
+    .then(function (response) {
+
+      let data = response.json();
+
+      return data;
+
+    })
+
+    .then(function (data) {
+
+      weather.temperature.value = Math.floor(data.main.temp - KELVIN);
+
+      weather.description = data.weather[0].description;
+
+      weather.iconId = data.weather[0].icon;
+
+      weather.city = data.name;
+
+      weather.country = data.sys.country;
+
+      weather.humidity = data.main.humidity;
+
+      weather.pressure = data.main.pressure;
+
      
-    </div>
 
-    <!-- Google text logo -->
+    })
 
-    <div class="logo">
+    .then(function () {
 
-        <h2><span class="G">G</span><span class="o1">o</span><span class="o">o</span><span class="g">g</span><span class="l">l</span><span class="e">e</span></h2>
+      displayWeather();
 
-        <!-- Search-icon -->
+    });
 
-        <div class="search-box">
+}
 
-            <button class="search-btn"><a href="#"><i class='bx bx-search'></i></a></button>
+function displayWeather() {
 
-            <input type="search" class="srch" placeholder="Search Google Or Type URL">
+  iconElement.innerHTML = `<img src="WEATHER-ICONS/${weather.iconId}.png"/>`;
 
-            <button class="mic"><a href="#"><i class='bx bxs-microphone'></i></a></button>
+  tempElement.innerHTML = `Temperature : ${weather.temperature.value}°<span>C</span>`;
 
-        </div>
+  descElement.innerHTML = `${weather.description}.`;
 
-    </div>
+  humidityElement.innerHTML = `Humidity : ${weather.humidity}%`
 
-    <!-- Recently Opened items -->
+  pressureElement.innerHTML = `Pressure : ${weather.pressure}Pa`
 
-    <div class="socials">
+  locationElement.innerHTML = `${weather.city}, ${weather.country}.`;
 
-        <div class="socials-container">
 
-                <a href="#"><i class='bx bxl-youtube'></i></a>      <span><i class='bx bx-dots-vertical-rounded'></i></span>
 
-                <h3>YouTube</h3>
-        </div>
+}
 
-        <div class="socials-container">
+// Add and remove weather app
 
-            <a href="#"><i class='bx bxl-github'></i></a>      <span><i class='bx bx-dots-vertical-rounded'></i></span>
+const weatherApp = document.getElementById("weather-app");
 
-            <h3>Github</h3>
+const cancelIcon = document.getElementById("cancel-icon");
 
-        </div>
+console.log(cancelIcon)
 
-        <div class="socials-container">
+// Pop up weather app
 
-            <a href="#"><i class='bx bxl-facebook-circle'></i></a>      <span><i class='bx bx-dots-vertical-rounded'></i></span>
+window.addEventListener("DOMContentLoaded", function(){
 
-            <h3>Facebook</h3>
+  setTimeout(function(){
 
-        </div>
+    weatherApp.style.opacity = 1
 
-        <div class="socials-container">
+  }, 3000)
 
-            <a href="#"><i class='bx bxl-whatsapp' ></i></a>      <span><i class='bx bx-dots-vertical-rounded'></i></span>
+});
 
-            <h3>Whatsapp</h3>
+// Remove weather App
 
-        </div>
-        
-    </div>
+cancelIcon.addEventListener("click", function(){
 
-    <!-- Digita-clock -->
+  weatherApp.style.display = "none"
 
-    <div class="time">
+});
 
-        <span id="hours">00</span>
+//Link to display weather.
 
-        <span>:</span>
+const weatherView = document.querySelector(".weather-link");
 
-        <span id="minutes">00</span>
+weatherView.addEventListener("click", function(){
 
-        <span>:</span>
+  weatherApp.style.display = `block`;
 
-        <span id="seconds">00</span>
+});
 
-        <span id="session">AM</span>
+//Background Color flipper.
 
-    </div>
-    
-    <!-- Quick weather access -->
+//Grab Items.
 
-    <div class="weather-view">
+const color = document.getElementById("color");
 
-        <a href="#" class="weather-link">view weather</a>
+const btn = document.querySelector(".theme-btn");
 
-    </div>
+//Array of colors.
 
-    <!-- Theme color flipper -->
+const colors = ["pink", "skyblue", "orange", "cyan","yellow", "white"]
 
-    <div class="theme-toggle">
+//Function to change color.
 
-        <div class="color" id="color"></div>
+function changeColor(){
 
-        <button class="theme-btn">Theme-toggle</button>
+  return Math.floor(Math.random()* colors.length);
 
-    </div>
+}
 
-   <!-- Pop Up weather App -->
+btn.addEventListener("click", function(){
 
-    <section class="weather-app" id="weather-app">
+  let randomColor = changeColor()
 
-        <div class="weather-wrapper">
-            
-            <div class="weather-container">
+  btn.style.color = colors[randomColor]
 
-                <div class="app-title">
+  document.body.style.background = colors[randomColor];
 
-                    <p>Today's Weather Forecast</p>
+  if(colors[randomColor] === "white"){
 
-                </div>
+    btn.style.color = "black";
 
-                <!-- Cancel button for weather icon  -->
+  }
 
-                <div class="cancel-icon" id="cancel-icon">
-
-                    <i class='bx bx-x'></i>
-
-                </div>
-
-                <!-- Notification if weather geolocation is disabled -->
-
-                <div class="notification"></div>
-
-                <div class="weather-container">
-
-                  <div class="weather-icon">
-
-                    <img src="WEATHER-ICONS/unknown.png" alt="" />
-
-                  </div>
-
-                  <div class="temperature-value">
-
-                    <p>- °<span>C</span></p>
-
-                  </div>
-
-                  <div class="temperature-description">
-
-                    <p>-</p>
-
-                  </div>
-
-                  
-                  <div class="humidity">
-
-                    <p>-</p>
-
-                  </div>
-
-                  <div class="pressure">
-
-                    <p>-</p>
-                    
-                  </div>
-
-
-                  <div class="location">
-
-                    <p>-</p>
-
-                  </div>
-
-                </div>
-
-            </div>
-
-        </div>
-        
-    </section>
-
-    <script src="app.js"></script>
-
-</body>
-
-</html>
+});
