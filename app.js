@@ -176,15 +176,17 @@ function displayWeather() {
 
   iconElement.innerHTML = `<img src="WEATHER-ICONS/${weather.iconId}.png"/>`;
 
-  tempElement.innerHTML = `${weather.temperature.value}°<span>C</span>`;
+  tempElement.innerHTML = `Temperature : ${weather.temperature.value}°<span>C</span>`;
 
-  descElement.innerHTML = weather.description;
+  descElement.innerHTML = `${weather.description}.`;
 
-  locationElement.innerHTML = `${weather.city}, ${weather.country}`;
+  humidityElement.innerHTML = `Humidity : ${weather.humidity}%`
 
-  humidityElement.innerHTML = `${weather.humidity}% humid`
+  pressureElement.innerHTML = `Pressure : ${weather.pressure}Pa`
 
-  pressureElement.innerHTML = `${weather.pressure}Pa`
+  locationElement.innerHTML = `${weather.city}, ${weather.country}.`;
+
+
 
 }
 
