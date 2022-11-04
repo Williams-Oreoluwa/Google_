@@ -70,6 +70,10 @@ const locationElement = document.querySelector(".location p");
 
 const notificationElement = document.querySelector(".notification");
 
+const humidityElement = document.querySelector(".humidity");
+
+const pressureElement = document.querySelector(".pressure");
+
 const weather = {};
 
 weather.temperature = {
@@ -128,6 +132,8 @@ function getWeather(latitude, longitude) {
 
   console.log(api)
 
+  console.log(api)
+
   fetch(api)
 
     .then(function (response) {
@@ -150,6 +156,12 @@ function getWeather(latitude, longitude) {
 
       weather.country = data.sys.country;
 
+      weather.humidity = data.main.humidity;
+
+      weather.pressure = data.main.pressure;
+
+     
+
     })
 
     .then(function () {
@@ -169,6 +181,10 @@ function displayWeather() {
   descElement.innerHTML = weather.description;
 
   locationElement.innerHTML = `${weather.city}, ${weather.country}`;
+
+  humidityElement.innerHTML = `${weather.humidity}% humid`
+
+  pressureElement.innerHTML = `${weather.pressure}Pa`
 
 }
 
