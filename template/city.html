@@ -1,0 +1,120 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Django weather app</title>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
+</head>
+<body>
+    <style>
+   
+        .weather-header{
+            background-color:skyblue;
+            width: 100%;
+            position: absolute;
+            left: 0;
+            padding: .7rem .7rem;
+
+        }
+       h2{
+            color: white;
+            padding-left: 3rem;
+        }
+        .country-search{
+            position: absolute;
+            top: 9rem;
+            display: flex;
+            flex-direction: column;
+        }
+        .search-bar{
+            display: inline-flex;
+            
+        }
+        #search-box{
+            width: 16rem;
+            height: 2.6rem;
+            border-bottom-left-radius: 5rem;
+            border-top-left-radius: 5rem;
+            border:transparent;
+            box-shadow: 2px 2px 2px 2px grey;
+
+        }
+        #search-box::placeholder{
+            padding: 0 .2rem;
+        }
+        #search-box:focus{
+            outline: none;
+            padding: 0 .6rem;
+        }
+    
+        .search-bar-icon{
+            background-color:grey;
+            font-size: 1.6rem;
+            padding: 0 1.6rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-bottom-right-radius: 5rem;
+            border-top-right-radius: 5rem;
+            border:transparent;
+            box-shadow: 2px 2px 2px 2px grey;
+        }
+        .country-stuffs{
+            display: grid;
+            padding: .2rem 3rem;
+        }
+        h1{
+            text-transform: uppercase;
+            font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+        }
+        .weather-items h1, .weather-items h3, .weather-items h4{
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        }
+    </style>
+    <header class="weather-header">
+        <h2>Weather Detector</h2>
+    </header>
+    
+    
+
+    <div class="country-stuffs">
+        <div class="country-search">
+           
+            <form action="" method="post" class="search-bar">
+                {% csrf_token %}
+                <input type="text" name="city" id="search-box" placeholder="Search city name">
+                <button type="submit" class="search-bar-icon"><i class="ri-search-line icon"></i></button>
+
+            </form>
+            <div class="weather-items">
+                {% if data.country %}
+                <div class="country-code">
+                    <h1>{{city}}</h1>
+                    <h3>country code: {{data.country}}</h3>
+                </div>
+                <div class="coordinate">
+                    <h4>coordinate: {{data.coordinate}}</h4>
+                </div>
+                <div class="condition">
+                    <h4>condition: {{data.condition}}</h4>
+                </div>
+                <div class="temperature">
+                    <h4>temp: {{data.temp}}</h4>
+                </div>
+                <div class="pressure">
+                    <h4>pressure: {{data.pressure}}</h4>
+                </div>
+                <div class="humidity">
+                    <h4>humidity: {{data.humidity}}</h4>
+                </div>
+                {% endif %}
+            </div>
+
+        </div>
+
+    </div> 
+</body>
+</html>
